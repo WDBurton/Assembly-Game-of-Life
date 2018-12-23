@@ -15,6 +15,9 @@
 #define HDEFAULT 20
 #define LDEFAULT 20
 
+// Later functions
+void displayBoard( void* board, int hBytes, int lBytes, int hActual, int lActual );
+
 
 int main( int argc, char *argv[] )
 {
@@ -67,18 +70,36 @@ int main( int argc, char *argv[] )
   
   // Need to use some kind of memory allocation.  I use Calloc as we're assuming that the array starts filled with nothing but 0's.
   char *gameBoard = (char *) calloc( height * length, 1 );
-  
-  
-  /*printf("Welp.  Back to the silly solution.  Silly solution HO!\n");
-  printf("This is a test for how many lines I can see with ease\n");
-  
-  for(int i = 0; i <= 40; i ++){
-    printf("%d---1----2----3----4----5----6----7----8----9---10---11---12---13---14---15---16---17---18---19---20\n", i);
-    }*/
 
   printf("Test Info:\n");
   printf("Number of bytes needed for the height: %d\n", height);
   printf("Number of bytes needed for the length: %d\n", length);
+  displayBoard( gameBoard, 0, 0, 0, 0 );
   free(gameBoard);
   return( 0 );
+}
+
+// This is the displayBoard function.  It requires the pointer to the board, the number of bytes in the height and row, and the actual size of the array we're using.
+// This is for testing purposes to ensure that the board works and that I don't crash and destroy everything.
+// I could put everything needed into global variables, but I'd rather do this to ensure that I understand everything properly, and make it more portable.
+void displayBoard( void* board, int hBytes, int lBytes, int hActual, int lActual ){
+  
+  /*
+   * We shall start by assuring ourselves that the size of a char is 1.  As that's what we'll be using for the arithmatic here.  If it isn't, then we are in trouble,
+   * so just return as is.
+   *
+   *
+   *
+   *
+   *
+   */
+
+  // The initial test
+  if( sizeof(char) != 1 ){
+    printf("FAILURE!  Char is not one byte!  It is %d bytes!  This test function will not work!\n", sizeof(char));
+    return;
+  }
+  printf("Commencing test display\n");
+
+  
 }
