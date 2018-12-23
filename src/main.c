@@ -56,17 +56,17 @@ int main( int argc, char *argv[] )
   
 
   // TODO:  Make cols and rows accept inputs if they are not null and are less than COLMAX and ROWMAX, respectively.  If the inputs are null, use the defaults like below.
-  int height = HDEFAULT;
-  int length = LDEFAULT;
+  int heightActual = HDEFAULT;
+  int lengthActual = LDEFAULT;
   int lAdd = 0;
 
   // Basic work, as explained above.  Height is height size / 8 + 1.
   // Length is length size / CELLS_IN_BYTE + 1, and another + 1 if and only if size % CELLS_IN_BYTE == 1. 
-  height = height/8 + 1;
-  if(length%CELLS_IN_BYTE == 1){
+  int height = heightActual/8 + 1;
+  if(lengthActual%CELLS_IN_BYTE == 1){
     lAdd = 1;
   }
-  length = length/8 + 1 + lAdd;
+  int length = lengthActual/8 + 1 + lAdd;
   
   // Need to use some kind of memory allocation.  I use Calloc as we're assuming that the array starts filled with nothing but 0's.
   char *gameBoard = (char *) calloc( height * length, 1 );
@@ -74,7 +74,7 @@ int main( int argc, char *argv[] )
   printf("Test Info:\n");
   printf("Number of bytes needed for the height: %d\n", height);
   printf("Number of bytes needed for the length: %d\n", length);
-  displayBoard( gameBoard, 0, 0, 0, 0 );
+  displayBoard( gameBoard, height, length, heightActual, lengthActual );
   free(gameBoard);
   return( 0 );
 }
@@ -88,7 +88,7 @@ void displayBoard( void* board, int hBytes, int lBytes, int hActual, int lActual
    * We shall start by assuring ourselves that the size of a char is 1.  As that's what we'll be using for the arithmatic here.  If it isn't, then we are in trouble,
    * so just return as is.
    *
-   *
+   * For appearances sake, we then put in a row of - 's, which will be of the length of the actual length.
    *
    *
    *
@@ -99,7 +99,14 @@ void displayBoard( void* board, int hBytes, int lBytes, int hActual, int lActual
     printf("FAILURE!  Char is not one byte!  It is %d bytes!  This test function will not work!\n", sizeof(char));
     return;
   }
-  printf("Commencing test display\n");
+  // The extra newline is to make it prettier!
+  printf("Commencing test display\n\n");
+
+  // The row of -'s for appearance
+  for(int l = 0; l < lActual; l ++ ) {
+    printf("-");
+  }
+  printf("\n");
 
   
 }
