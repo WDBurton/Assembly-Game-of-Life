@@ -1,5 +1,9 @@
-CXX=gcc
-CXXFLAGS += -g -Wall -Wextra -pthread
+CC=gcc
+CFLAGS += -g -Wall -Wextra -pthread
+CTESTFLAGS += -isystem -src
+
+TESTPACKAGE = `pkg-config --cflags --libs gtk+-3.0`
+TESTLIBS = `pkg-config --libs gtk+-3.0`
 
 MKDIR_P = mkdir -p
 OBJ_DIR = obj
@@ -10,11 +14,11 @@ ${OBJ_DIR}:
 	${MKDIR_P} ${OBJ_DIR}
 
 obj/%.o: src/%.c ${OBJ_DIR}
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CC) -c -o $@ $< $(CFLAGS) $(TESTPACKAGE)
 
 
 main: obj/main.o
-	$(CXX) -o $@ $^
+	$(CC) -o $@ $^ $(CFLAGS) $(TESTPACKAGE)
 
 clean:
 	rm -f main
